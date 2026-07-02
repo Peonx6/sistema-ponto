@@ -1,132 +1,61 @@
-import { Form, Button, Typography } from "antd"; //componentes do Ant Design
-import Header from "../../components/Header"; //Header
-const { Title } = Typography;
+import { Form } from "antd";
+import Header from "../../components/Header";
+import {
+  PageContainer,
+  MainContent,
+  FormWrapper,
+  StyledTitle,
+  ProfileCard,
+  ProfileField,
+  ProfileLabel,
+  ProfileValue,
+  SubmitButton,
+} from "./styles";
 
 export function Perfil() {
   const onFinish = (valores) => {
-    //função que vai ser chamada quando o usuario clicar no botão de entrar
     console.log("Valores preenchidos:", valores);
   };
-  /* TODO: conectar rotas*/
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        backgroundColor: "#000000",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
+    <PageContainer>
       <Header />
 
-      <main
-        style={{
-          flex: 1,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "20px",
-        }}
-      >
-        {" "}
-        {/* div centralizada */}
-        <div style={{ width: "100%", maxWidth: "350px", textAlign: "center" }}>
-          <Title
-            level={2}
-            style={{
-              color: "#FFD700",
-              marginBottom: "40px",
-              letterSpacing: "1px",
-            }}
-          >
-            Perfil
-          </Title>
+      <MainContent>
+        <FormWrapper>
+          <StyledTitle level={2}>Perfil</StyledTitle>
 
-          {/* ANT DESIGN */}
           <Form
             name="form_login"
-            layout="vertical" // Deixa um campo debaixo do outro
+            layout="vertical"
             onFinish={onFinish}
-            size="large" // Deixa os inputs maiores
+            size="large"
           >
-            <div
-              style={{
-                backgroundColor: "#333333", // O cinza escuro do fundo
-                borderRadius: "10px", // Bordas arredondadas
-                padding: "40px", // Espaço interno para o texto não colar nas bordas
-                display: "flex",
-                flexDirection: "column", // Um item embaixo do outro
-                gap: "20px", // Espaço entre as linhas de texto
-                width: "100%",
-                maxWidth: "500px", // Limita a largura para não esticar na tela toda
-              }}
-            >
-              {/* LINHA 1: NOME */}
-              <div style={{ display: "flex", fontSize: "20px" }}>
-                {/* Damos uma largura fixa (width: 90px) para os títulos ficarem todos alinhados como numa tabela */}
-                <span
-                  style={{
-                    color: "#FFE712",
-                    fontWeight: "bold",
-                    width: "90px",
-                  }}
-                >
-                  Nome:
-                </span>
-                <span style={{ color: "#FFE712" }}>Usuário 1</span>
-              </div>
+            <ProfileCard>
+              <ProfileField>
+                <ProfileLabel>Nome:</ProfileLabel>
+                <ProfileValue>Usuário 1</ProfileValue>
+              </ProfileField>
 
-              {/* LINHA 2: E-MAIL */}
-              <div style={{ display: "flex", fontSize: "20px" }}>
-                <span
-                  style={{
-                    color: "#FFE712",
-                    fontWeight: "bold",
-                    width: "90px",
-                  }}
-                >
-                  E-mail:
-                </span>
-                <span style={{ color: "#FFE712" }}>usuario1@gmail.com</span>
-              </div>
+              <ProfileField>
+                <ProfileLabel>E-mail:</ProfileLabel>
+                <ProfileValue>usuario1@gmail.com</ProfileValue>
+              </ProfileField>
 
-              {/* LINHA 3: CARGO */}
-              <div style={{ display: "flex", fontSize: "20px" }}>
-                <span
-                  style={{
-                    color: "#FFE712",
-                    fontWeight: "bold",
-                    width: "90px",
-                  }}
-                >
-                  Cargo:
-                </span>
-                <span style={{ color: "#FFE712" }}>Dev Líder</span>
-              </div>
-            </div>
+              <ProfileField>
+                <ProfileLabel>Cargo:</ProfileLabel>
+                <ProfileValue>Dev Líder</ProfileValue>
+              </ProfileField>
+            </ProfileCard>
 
-            {/* BOTÃO DE EDITAR */}
             <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                style={{
-                  backgroundColor: "#FFD700",
-                  color: "#000000",
-                  fontWeight: "bold",
-                  borderRadius: "25px",
-                  padding: "0 50px",
-                  height: "45px",
-                  marginTop: "50px",
-                }}
-              >
+              <SubmitButton type="primary" htmlType="submit">
                 EDITAR
-              </Button>
+              </SubmitButton>
             </Form.Item>
           </Form>
-        </div>
-      </main>
-    </div>
+        </FormWrapper>
+      </MainContent>
+    </PageContainer>
   );
 }

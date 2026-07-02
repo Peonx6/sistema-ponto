@@ -1,83 +1,64 @@
-import { Form, Input, Button, Typography} from 'antd'; //componentes do Ant Design
-import Header from '../../components/Header'; //Header
-const { Title, Text } = Typography;
+import { Form } from "antd";
+import Header from "../../components/Header";
+import {
+  PageContainer,
+  MainContent,
+  FormContainer,
+  StyledTitle,
+  StyledInput,
+  StyledPassword,
+  LoginTextContainer,
+  StyledText,
+  StyledLink,
+  SubmitButton,
+} from "./styles";
 
 export function Login() {
-  const onFinish = (valores) => {//função que vai ser chamada quando o usuario clicar no botão de entrar
-    console.log('Valores preenchidos:', valores);
-  }; 
-  /* TODO: conectar rotas*/
+  const onFinish = (valores) => {
+    console.log("Valores preenchidos:", valores);
+  };
 
   return (
-   
-    <div style={{ minHeight: '100vh', backgroundColor: '#000000', display: 'flex', flexDirection: 'column' }}>
-      
-      <Header />  
+    <PageContainer>
+      <Header />
 
-      <main style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}> {/* div centralizada */}
-      
-        <div style={{ width: '100%', maxWidth: '350px', textAlign: 'center' }}>
-          
-          <Title level={2} style={{ color: '#FFD700', marginBottom: '40px', letterSpacing: '1px' }}>
-            LOGIN
-          </Title>
+      <MainContent>
+        <FormContainer>
+          <StyledTitle level={2}>LOGIN</StyledTitle>
 
-          {/* ANT DESIGN */}
           <Form
             name="form_login"
-            layout="vertical" // Deixa um campo debaixo do outro
+            layout="vertical"
             onFinish={onFinish}
-            size="large" // Deixa os inputs maiores
+            size="large"
           >
-            {/* E-MAIL */}
             <Form.Item
               name="email"
-              rules={[{ required: true, message: 'Insira seu e-mail!' }]}
+              rules={[{ required: true, message: "Insira seu e-mail!" }]}
             >
-              <Input 
-                placeholder="E-mail" 
-                style={{ borderRadius: '25px' }} // Arredondando a borda igual 
-              />
+              <StyledInput placeholder="E-mail" />
             </Form.Item>
 
-            {/* SENHA */}
             <Form.Item
               name="senha"
-              rules={[{ required: true, message: 'Insira sua senha!' }]}
+              rules={[{ required: true, message: "Insira sua senha!" }]}
             >
-              <Input.Password 
-                placeholder="Senha" 
-                style={{ borderRadius: '25px' }} 
-              />
+              <StyledPassword placeholder="Senha" />
             </Form.Item>
 
-            {/* CADASTRO */}
-            <div style={{ marginBottom: '30px', marginTop: '-10px' }}>
-              <Text style={{ color: '#ffffff' }}>Não tem login? Faça seu cadastro </Text>
-              {/* TODO: trocar <a> pelo <Link> do react-router-dom */}
-              <a href="/cadastro" style={{ color: '#FFD700', fontWeight: 'bold' }}>aqui.</a>
-            </div>
+            <LoginTextContainer>
+              <StyledText>Não tem login? Faça seu cadastro </StyledText>
+              <StyledLink to="/cadastro">aqui.</StyledLink>
+            </LoginTextContainer>
 
-            {/* BOTÃO DE ENTRAR */}
             <Form.Item>
-              <Button 
-                type="primary" 
-                htmlType="submit" 
-                style={{ 
-                  backgroundColor: '#FFD700', 
-                  color: '#000000', 
-                  fontWeight: 'bold', 
-                  borderRadius: '25px',
-                  padding: '0 50px',
-                  height: '45px'
-                }}
-              >
+              <SubmitButton type="primary" htmlType="submit">
                 ENTRAR
-              </Button>
+              </SubmitButton>
             </Form.Item>
           </Form>
-        </div>
-      </main>
-    </div>
+        </FormContainer>
+      </MainContent>
+    </PageContainer>
   );
 }

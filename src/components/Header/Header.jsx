@@ -1,40 +1,24 @@
-import { Link } from 'react-router-dom';
-import logoCpe from '../../assets/logo-cpe.svg';
+import logoCpe from "../../assets/logo-cpe.svg";
+import {
+  HeaderContainer,
+  LogoContainer,
+  LogoImage,
+  Nav,
+  NavLink,
+} from "./styles";
 
 export function Header() {
   return (
-    <header style={{ 
-      backgroundColor: '#FFE712', 
-      padding: '15px 40px', 
-      display: 'flex', 
-      justifyContent: 'space-between', // Joga a logo pra esquerda e o menu pra direita
-      alignItems: 'center' // Alinha tudo no meio na vertical
-    }}>
-      
-      <div>
-        <div>
-        <img 
-          src={logoCpe} 
-          alt="Logo da CPE" 
-          style={{ height: '40px' }} // Você pode ajustar a altura aqui para bater com o Figma
-        />
-      </div>
-      </div>
+    <HeaderContainer>
+      <LogoContainer>
+        <LogoImage src={logoCpe} alt="Logo da CPE" />
+      </LogoContainer>
 
-      <nav style={{ display: 'flex', gap: '300px' }}>
-        <Link to="/home" style={{ color: '#000000', fontWeight: 'bold', textDecoration: 'none' }}>
-          HOME
-        </Link>
-        
-        <Link to="/perfil" style={{ color: '#000000', fontWeight: 'bold', textDecoration: 'none' }}>
-          PERFIL
-        </Link>
-        
-        <Link to="/usuarios" style={{ color: '#000000', fontWeight: 'bold', textDecoration: 'none' }}>
-          USUÁRIOS
-        </Link>
-      </nav>
-
-    </header>
+      <Nav>
+        <NavLink to="/home">HOME</NavLink>
+        <NavLink to="/perfil">PERFIL</NavLink>
+        <NavLink to="/usuarios">USUÁRIOS</NavLink>
+      </Nav>
+    </HeaderContainer>
   );
 }
