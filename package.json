@@ -1,17 +1,34 @@
 {
   "name": "sistema-ponto",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "homepage": "https://github.com/Peonx6/sistema-ponto#readme",
+  "bugs": {
+    "url": "https://github.com/Peonx6/sistema-ponto/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Peonx6/sistema-ponto.git"
+  },
+  "license": "ISC",
+  "author": "",
   "type": "module",
+  "main": "eslint.config.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "dev": "cd front && vite",
+    "build": "cd front && vite build",
+    "lint": "cd front && eslint .",
+    "preview": "cd front && vite preview",
+    "start": "nodemon back/index.js"
   },
   "dependencies": {
     "@ant-design/icons": "^6.3.2",
     "antd": "^6.5.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.7.3",
+    "nodemon": "^3.1.14",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-router-dom": "^7.18.1",

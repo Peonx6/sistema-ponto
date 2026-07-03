@@ -1,0 +1,6 @@
+{
+  "watch": ["back"],
+  "ext": "js",
+  "ignore": ["node_modules/", "front/", "dist/"],
+  "exec": "node"
+}

@@ -1,0 +1,8 @@
+node_modules/
+front/
+dist/
+*.json
+.git/
+.gitignore
+README.md
+templates.md

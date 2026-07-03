@@ -1,5 +1,4 @@
 import Header from "../../components/Header";
-import { useNavigate } from "react-router-dom";
 
 import {
   PageContainer,
@@ -16,16 +15,9 @@ import {
 } from "./styles";
 
 export function Cadastro() {
-  const navigate = useNavigate();
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Formulário enviado com sucesso!");
-  };
-
-  const irParaLogin = (e) => {
-    e.preventDefault();
-    navigate("/login");
   };
 
   return (
@@ -49,9 +41,7 @@ export function Cadastro() {
             <LoginTextContainer>
               <StyledText>
                 Já tem cadastro? Faça o login{" "}
-                <StyledLink href="/login" onClick={irParaLogin}>
-                  aqui.
-                </StyledLink>
+                <StyledLink to="/login">aqui.</StyledLink>
               </StyledText>
             </LoginTextContainer>
 
@@ -62,3 +52,5 @@ export function Cadastro() {
     </PageContainer>
   );
 }
+
+export default Cadastro;
