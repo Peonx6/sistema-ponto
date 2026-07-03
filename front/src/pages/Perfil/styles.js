@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button, Typography } from "antd";
+import { Button, Typography, Input } from "antd";
 
 const { Title } = Typography;
 
@@ -65,4 +65,9 @@ export const SubmitButton = styled(Button)`
   height: 45px;
   margin-top: 50px;
   border: none;
+`;
+
+export const StyledInput = styled(Input)`
+  border-radius: 25px;
+  width: 100%;
 `;

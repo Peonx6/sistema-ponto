@@ -1,5 +1,12 @@
-import { Table, Select } from "antd";
+import { Table, Select, message, Spin } from "antd";
 import Header from "../../components/Header";
+
+import {
+  useGetUsuarios as useGetUsers,
+  useUpdateUsuario as useUpdateUser,
+  useDeleteUsuario as useDeleteUser,
+} from "../../hook/users";
+
 import {
   PageContainer,
   MainContent,
@@ -16,26 +23,22 @@ import {
 } from "./styles";
 
 export function Usuarios() {
-  const dadosMocados = [
-    {
-      key: "1",
-      nome: "Usuário 1",
-      cargo: "Dev Líder",
-      tipo: "admin",
-    },
-    {
-      key: "2",
-      nome: "Usuário 2",
-      cargo: "Presidente",
-      tipo: "admin",
-    },
-    {
-      key: "3",
-      nome: "Usuário 3",
-      cargo: "Consultor de tecnologia",
-      tipo: "comum",
-    },
-  ];
+  const { data: usuariosDaApi, isLoading } = useGetUsers();
+
+  const { mutate: atualizarUsuario } = useUpdateUser({
+    onSuccess: () => message.success("Usuário atualizado com sucesso!"),
+  });
+  const { mutate: deletarUsuario } = useDeleteUser({
+    onSuccess: () => message.success("Usuário deletado com sucesso!"),
+  });
+
+  const handleAtualizarTipo = (novoValor, idUsuario) => {
+    atualizarUsuario({ id: idUsuario, dados: { status: novoValor } });
+  };
+
+  const handleDeletar = (idUsuario) => {
+    deletarUsuario(idUsuario);
+  };
 
   const colunas = [
     {
@@ -51,23 +54,24 @@ export function Usuarios() {
       render: (texto) => <TableText>{texto}</TableText>,
     },
     {
-      title: "Usuário",
-      dataIndex: "tipo",
-      key: "tipo",
-      render: (tipoAtual) => (
-        <StyledSelect defaultValue={tipoAtual}>
-          <Select.Option value="admin">▲ Administrador</Select.Option>
-          <Select.Option value="comum">▼ Comum</Select.Option>
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (statusAtual, registro) => (
+        <StyledSelect
+          defaultValue={statusAtual}
+          onChange={(valor) => handleAtualizarTipo(valor, registro._id)}
+        >
+          <Select.Option value="ativo">▲ Ativo</Select.Option>
+          <Select.Option value="inativo">▼ Inativo</Select.Option>
         </StyledSelect>
       ),
     },
     {
       title: "",
       key: "acao",
-      render: () => (
-        <StyledDeleteIcon
-          onClick={() => console.log("Deletar utilizador clicado")}
-        />
+      render: (_, registro) => (
+        <StyledDeleteIcon onClick={() => handleDeletar(registro._id)} />
       ),
     },
   ];
@@ -88,11 +92,16 @@ export function Usuarios() {
         </SearchContainer>
 
         <TableWrapper>
-          <Table
-            dataSource={dadosMocados}
-            columns={colunas}
-            pagination={false}
-          />
+          {isLoading ? (
+            <Spin size="large" />
+          ) : (
+            <Table
+              dataSource={usuariosDaApi}
+              rowKey="_id"
+              columns={colunas}
+              pagination={false}
+            />
+          )}
         </TableWrapper>
       </MainContent>
     </PageContainer>

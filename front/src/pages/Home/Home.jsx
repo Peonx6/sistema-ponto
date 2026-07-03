@@ -1,6 +1,9 @@
-import { Carousel, Table } from "antd";
+import { Carousel, Table, Spin, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
+
+import { useGetSessoes, useDeleteSessao } from "../../hook/sessions";
+
 import {
   PageContainer,
   ContainerPrincipal,
@@ -18,62 +21,71 @@ import {
 export function Home() {
   const navigate = useNavigate();
 
+  // 1. READ: Buscar sessões ativas do back-end
+  const { data: sessoesDaApi, isLoading } = useGetSessoes();
+
+  // 2. DELETE: Hook para deletar a sessão (encerrar)
+  const { mutate: deletarSessao } = useDeleteSessao({
+    onSuccess: () => message.success("Sessão encerrada com sucesso!"),
+    onError: () => message.error("Erro ao encerrar a sessão."),
+  });
+
   const handleFazerLogin = () => {
     navigate("/login");
   };
 
-  const dadosMocados = [
-    {
-      key: "1",
-      nome: "Mariana Rabelo",
-      cargo: "Gerente de Recrutamento e Seleção",
-      chegada: "22:34",
-      tempo: "01:34",
-    },
-    {
-      key: "2",
-      nome: "Oswaldo Neto",
-      cargo: "Dev Líder",
-      chegada: "22:34",
-      tempo: "01:34",
-    },
-    {
-      key: "3",
-      nome: "João Pirajá",
-      cargo: "Dev Líder",
-      chegada: "22:34",
-      tempo: "01:34",
-    },
-  ];
+  // Função auxiliar para extrair apenas a hora do 'createdAt' do MongoDB (Ex: 22:34)
+  const formatarHoraChegada = (dataString) => {
+    if (!dataString) return "--:--";
+    const data = new Date(dataString);
+    return data.toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  // Função auxiliar simplificada para o "Tempo" (Você pode aprimorar a lógica depois para calcular tempo real)
+  const calcularTempoDecorrido = (dataString) => {
+    // Por enquanto, retorna um valor fixo, mas aqui entraria a lógica de (Hora Atual - Hora de Chegada)
+    return "01:30";
+  };
 
   const colunas = [
     {
       title: "MEMBRO",
-      dataIndex: "membro",
       key: "membro",
-      render: (texto, registro) => (
+      render: (_, registro) => (
         <div>
-          <MemberName>{registro.nome}</MemberName>
-          <MemberRole>{registro.cargo}</MemberRole>
+          <MemberName>
+            {registro.id_usuario?.nome || "Usuário Desconhecido"}
+          </MemberName>
+          <MemberRole>{registro.id_usuario?.cargo || "-"}</MemberRole>
         </div>
       ),
     },
     {
       title: "CHEGADA",
-      dataIndex: "chegada",
       key: "chegada",
-      render: (texto) => <StatusChip>{texto}</StatusChip>,
+      render: (_, registro) => (
+        <StatusChip>{formatarHoraChegada(registro.createdAt)}</StatusChip>
+      ),
     },
     {
       title: "TEMPO",
-      dataIndex: "tempo",
       key: "tempo",
-      render: (texto) => <StatusChip>{texto}</StatusChip>,
+      render: (_, registro) => (
+        <StatusChip>{calcularTempoDecorrido(registro.createdAt)}</StatusChip>
+      ),
     },
     {
       title: "",
       key: "acao",
-      render: () => <DeleteActionIcon />,
+      render: (_, registro) => (
+        <DeleteActionIcon
+          onClick={() => deletarSessao(registro._id)}
+          style={{ cursor: "pointer" }}
+        />
+      ),
     },
   ];
 
@@ -103,11 +115,24 @@ export function Home() {
         </BotaoContainer>
 
         <TableWrapper>
-          <Table
-            dataSource={dadosMocados}
-            columns={colunas}
-            pagination={false}
-          />
+          {isLoading ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                padding: "2rem",
+              }}
+            >
+              <Spin size="large" />
+            </div>
+          ) : (
+            <Table
+              dataSource={sessoesDaApi}
+              rowKey="_id"
+              columns={colunas}
+              pagination={false}
+            />
+          )}
         </TableWrapper>
       </ContainerPrincipal>
     </PageContainer>

@@ -1,10 +1,10 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import {
-  CreateSessao,
-  GetSessoes,
-  UpdateSessao,
-  DeleteSessao,
-} from "../services/api/sessoes";
+  createSessao as CreateSessao,
+  getSessoes as GetSessoes,
+  updateSessao as UpdateSessao,
+  deleteSessao as DeleteSessao,
+} from "../services/api/endpoint";
 
 
 export function useCreateSessao({ onSuccess = () => {}, onError = () => {} } = {}) {
